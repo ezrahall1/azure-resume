@@ -5,6 +5,7 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using Microsoft.Azure.Documents.Client;
 
 namespace Company.Function
 {
@@ -16,18 +17,28 @@ namespace Company.Function
             [CosmosDB(
                 databaseName: "AzureResume",
                 collectionName: "Counter",
-                ConnectionStringSetting = "COSMOSDB_KEY",  // Use your environment variable here
+                ConnectionStringSetting = "COSMOSDB_KEY",
                 Id = "1",
                 PartitionKey = "1")] Counter counter,
+            [CosmosDB(
+                databaseName: "AzureResume",
+                collectionName: "Counter",
+                ConnectionStringSetting = "COSMOSDB_KEY")] out dynamic updatedCounter,
             ILogger log)
         {
-            // Here is where the counter gets updated.
             log.LogInformation("C# HTTP trigger function processed a request.");
 
+            if (counter == null)
+            {
+                log.LogError("Counter document not found.");
+                updatedCounter = null;
+                return new NotFoundResult();
+            }
+
             counter.Count += 1;
+            updatedCounter = counter;
 
             return new OkObjectResult(counter);
         }
     }
 }
-
