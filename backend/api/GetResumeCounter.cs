@@ -16,7 +16,7 @@ namespace Company.Function
             [CosmosDB(
                 databaseName: "AzureResume",
                 collectionName: "Counter",
-                ConnectionStringSetting = "COSMOSDB_KEY",  // Use your environment variable here
+                ConnectionStringSetting = "AzureResumeConnectionString",  // Use your environment variable here
                 Id = "1",
                 PartitionKey = "1")] Counter counter,
             ILogger log)
