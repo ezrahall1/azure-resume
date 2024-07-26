@@ -14,7 +14,7 @@
     <!-- JavaScript to fetch and display the counter -->
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            fetch('https://azureresume.azurewebsites.net/api/GetResumeCounter25')
+            fetch('https://azureresumesaeh.z33.web.core.windows.net')
                 .then(response => response.json())
                 .then(data => {
                     document.getElementById('counter').innerText = data.count;
