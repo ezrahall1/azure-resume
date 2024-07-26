@@ -10,24 +10,19 @@ namespace Company.Function
 {
     public static class GetResumeCounter
     {
-        [FunctionName("GetResumeCounter")] // Ensure this matches the Azure portal
+        [FunctionName("GetResumeCounter25")]
         public static IActionResult Run(
             [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequest req,
             [CosmosDB(
                 databaseName: "AzureResume",
                 collectionName: "Counter",
-                ConnectionStringSetting = "COSMOSDB_KEY",
+                ConnectionStringSetting = "COSMOSDB_KEY",  // Use your environment variable here
                 Id = "1",
                 PartitionKey = "1")] Counter counter,
             ILogger log)
         {
+            // Here is where the counter gets updated.
             log.LogInformation("C# HTTP trigger function processed a request.");
-
-            if (counter == null)
-            {
-                log.LogError("Counter document not found.");
-                return new NotFoundResult();
-            }
 
             counter.Count += 1;
 
