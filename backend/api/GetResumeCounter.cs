@@ -21,10 +21,17 @@ namespace Company.Function
                 PartitionKey = "1")] Counter counter,
             ILogger log)
         {
-            // Here is where the counter gets updated.
             log.LogInformation("C# HTTP trigger function processed a request.");
 
+            if (counter == null)
+            {
+                log.LogError("Counter document not found.");
+                return new NotFoundResult();
+            }
+
             counter.Count += 1;
+
+            log.LogInformation($"Counter updated to {counter.Count}.");
 
             return new OkObjectResult(counter);
         }
