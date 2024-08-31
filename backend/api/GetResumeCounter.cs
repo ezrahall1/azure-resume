@@ -15,13 +15,12 @@ namespace Company.Function
             [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequest req,
             [CosmosDB(
                 databaseName: "AzureResume",
-                collectionName: "Counter",
-                ConnectionStringSetting = "AzureResumeConnectionString",  // Use your environment variable here
+                containerName: "Counter", // Use 'containerName' instead of 'collectionName'
+                Connection = "AzureResumeConnectionString", // Use 'Connection' instead of 'ConnectionStringSetting'
                 Id = "1",
                 PartitionKey = "1")] Counter counter,
             ILogger log)
         {
-            // Here is where the counter gets updated.
             log.LogInformation("C# HTTP trigger function processed a request.");
 
             counter.Count += 1;
